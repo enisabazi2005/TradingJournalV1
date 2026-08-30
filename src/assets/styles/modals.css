@@ -1,0 +1,136 @@
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(4px);
+}
+
+.modal {
+  width: 100%;
+  max-width: 440px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.5);
+}
+
+.modal-header {
+  padding: 20px 22px 16px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.modal-header h2 {
+  margin: 6px 0 0;
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 560;
+  letter-spacing: -0.01em;
+}
+
+.modal-body {
+  padding: 20px 22px 24px;
+}
+
+.modal-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.modal-row:last-child {
+  border-bottom: 0;
+}
+
+.modal-row span {
+  color: var(--text-secondary);
+  font-size: 11px;
+}
+
+.modal-row strong {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-primary);
+}
+
+.settings-group {
+  margin-bottom: 22px;
+}
+
+.settings-group:last-child {
+  margin-bottom: 0;
+}
+
+.settings-group h3 {
+  margin: 0 0 12px;
+  color: var(--text-secondary);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.setting-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 0;
+}
+
+.setting-item label {
+  color: var(--text-primary);
+  font-size: 12px;
+}
+
+.setting-item select {
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-primary);
+  background: var(--surface-raised);
+  font-size: 11px;
+}
+
+.toggle {
+  width: 38px;
+  height: 22px;
+  position: relative;
+  border-radius: 11px;
+  background: var(--border);
+  cursor: pointer;
+  transition: background 150ms ease;
+}
+
+.toggle.active {
+  background: var(--gold-dim);
+}
+
+.toggle::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--text-primary);
+  transition: transform 150ms ease;
+}
+
+.toggle.active::after {
+  transform: translateX(16px);
+  background: var(--gold-bright);
+}
