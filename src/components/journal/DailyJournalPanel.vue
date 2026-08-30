@@ -79,28 +79,35 @@ defineProps({
           <span class="trade-count">{{ tradesForSelectedDay.length }}</span>
         </div>
 
-        <div class="mini-trades">
-          <div
-            v-for="trade in tradesForSelectedDay"
-            :key="trade.id"
-            class="mini-trade"
-          >
-            <div>
-              <strong>{{ cleanSymbol(trade.symbol) }}</strong>
-              <span>
-                {{ trade.direction }} · {{ Number(trade.volume).toFixed(2) }}
-              </span>
-            </div>
+   <div class="mini-trades">
+  <div
+    v-for="trade in tradesForSelectedDay"
+    :key="trade.id"
+    class="mini-trade"
+  >
+    <div>
+      <strong>{{ cleanSymbol(trade.symbol) }}</strong>
+      <span>
+        {{ trade.direction }} · {{ Number(trade.volume).toFixed(2) }}
+      </span>
+    </div>
 
-            <strong :class="pnlClass(netPnl(trade))">
-              {{ formatMoney(netPnl(trade)) }}
-            </strong>
-          </div>
+    <div class="mini-trade-actions">
+      <button class="screenshot-button">
+        View screenshot
+      </button>
 
-          <p v-if="!tradesForSelectedDay.length" class="journal-text muted">
-            No trades closed on this day.
-          </p>
-        </div>
+      <strong :class="pnlClass(netPnl(trade))">
+        {{ formatMoney(netPnl(trade)) }}
+      </strong>
+    </div>
+  </div>
+
+  <p v-if="!tradesForSelectedDay.length" class="journal-text muted">
+    No trades closed on this day.
+  </p>
+</div>
+
       </div>
     </div>
 

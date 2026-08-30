@@ -355,6 +355,28 @@
   flex-direction: column;
   gap: 3px;
 }
+.mini-trade-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.screenshot-button {
+  padding: 3px 6px;
+  border: 1px solid var(--border-soft);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text-tertiary);
+  font-size: 8px;
+  font-family: var(--font-mono);
+  cursor: pointer;
+}
+
+.screenshot-button:hover {
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
 
 .mini-trade {
   min-height: 38px;
@@ -366,6 +388,8 @@
   border-radius: 6px;
   background: var(--surface-raised);
 }
+
+
 
 .mini-trade div {
   display: flex;

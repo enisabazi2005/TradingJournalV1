@@ -13,6 +13,15 @@ export function useJournal() {
   const error = ref(null)
   const account = ref(null)
   const trades = ref([])
+  const stats = ref({
+    overall: null,
+    currentMonth: null,
+    months: [],
+  })
+
+  const monthWinRate = computed(() => stats.value?.currentMonth?.winRate ?? 0)
+const monthTradeCount = computed(() => stats.value?.currentMonth?.total ?? 0)
+
 
   const currentMonth = ref(today.getMonth())
   const currentYear = ref(today.getFullYear())
@@ -24,8 +33,15 @@ export function useJournal() {
 
     try {
       const data = await getJournal(params)
+      console.log(data);
       account.value = data.account ?? null
       trades.value = data.trades ?? []
+
+      stats.value = data.stats ?? {
+        overall: null,
+        currentMonth: null,
+        months: [],
+      }
 
       if (
         currentMonth.value === today.getMonth() &&
@@ -300,6 +316,7 @@ export function useJournal() {
     loading,
     error,
     account,
+    stats,
     trades,
     currentMonth,
     currentYear,

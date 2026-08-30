@@ -23,6 +23,8 @@ defineProps({
   selectedDayWinRate: { type: Number, required: true },
   notedTrades: { type: Array, required: true },
   recentTrades: { type: Array, required: true },
+  monthWinRate: { type: Number, default: 0 },
+  monthTradeCount: { type: Number, default: 0 },
 })
 
 const emit = defineEmits(['changeMonth', 'selectDay', 'viewAllTrades'])
@@ -43,16 +45,19 @@ const emit = defineEmits(['changeMonth', 'selectDay', 'viewAllTrades'])
       </button>
     </section>
 
-    <StatsGrid
-      :today-pnl="todayPnl"
-      :today-trades="todayTrades"
-      :today-win-rate="todayWinRate"
-      :today-wins="todayWins"
-      :today-losses="todayLosses"
-      :today-longs="todayLongs"
-      :today-shorts="todayShorts"
-      :account="account"
-    />
+<StatsGrid
+  :today-pnl="todayPnl"
+  :today-trades="todayTrades"
+  :today-win-rate="todayWinRate"
+  :today-wins="todayWins"
+  :today-losses="todayLosses"
+  :today-longs="todayLongs"
+  :today-shorts="todayShorts"
+  :account="account"
+  :month-win-rate="monthWinRate"
+  :month-trade-count="monthTradeCount"
+/>
+
 
     <section class="main-grid">
       <TradingCalendar

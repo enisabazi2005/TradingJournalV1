@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useJournal } from './composables/useJournal.js'
 import AppSidebar from './components/layout/AppSidebar.vue'
 import AppTopbar from './components/layout/AppTopbar.vue'
@@ -15,7 +15,6 @@ const sidebarOpen = ref(true)
 const activePage = ref('Journal')
 const showAccountModal = ref(false)
 const showSettingsModal = ref(false)
-
 const {
   loading,
   error,
@@ -40,6 +39,7 @@ const {
   selectedDayPnl,
   selectedDayWinRate,
   notedTrades,
+  stats,
   totalPnl,
   totalWins,
   totalLosses,
@@ -53,6 +53,14 @@ const {
   selectDay,
   changeMonth,
 } = useJournal()
+
+const monthWinRate = computed(
+  () => stats.value?.currentMonth?.winRate ?? 0
+)
+
+const monthTradeCount = computed(
+  () => stats.value?.currentMonth?.total ?? 0
+)
 
 function navigateTo(page) {
   activePage.value = page
@@ -126,6 +134,8 @@ function goToTrades() {
             :account="account"
             :today-pnl="todayPnl"
             :today-trades="todayTrades"
+            :month-win-rate="monthWinRate"
+            :month-trade-count="monthTradeCount"
             :today-win-rate="todayWinRate"
             :today-wins="todayWins"
             :today-losses="todayLosses"

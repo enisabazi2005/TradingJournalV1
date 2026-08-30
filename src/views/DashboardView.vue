@@ -32,17 +32,18 @@ const emit = defineEmits(['viewAllTrades'])
         <p>Your trading performance at a glance.</p>
       </div>
     </section>
-
-    <StatsGrid
-      :today-pnl="todayPnl"
-      :today-trades="todayTrades"
-      :today-win-rate="todayWinRate"
-      :today-wins="todayWins"
-      :today-losses="todayLosses"
-      :today-longs="todayLongs"
-      :today-shorts="todayShorts"
-      :account="account"
-    />
+<StatsGrid
+  :today-pnl="todayPnl"
+  :today-trades="todayTrades"
+  :today-win-rate="todayWinRate"
+  :today-wins="todayWins"
+  :today-losses="todayLosses"
+  :today-longs="todayLongs"
+  :today-shorts="todayShorts"
+  :account="account"
+  :month-win-rate="stats.currentMonth?.winRate ?? 0"
+  :month-trade-count="stats.currentMonth?.total ?? 0"
+/>
 
     <section class="stats-grid" style="margin-top: 12px">
       <div class="stat-card">

@@ -1,7 +1,7 @@
 <script setup>
 import { formatMoney, pnlClass } from '../../utils/formatters.js'
 
-defineProps({
+const props = defineProps({
   todayPnl: { type: Number, required: true },
   todayTrades: { type: Array, required: true },
   todayWinRate: { type: Number, required: true },
@@ -9,11 +9,18 @@ defineProps({
   todayLosses: { type: Number, required: true },
   todayLongs: { type: Number, required: true },
   todayShorts: { type: Number, required: true },
+
   account: { type: Object, default: null },
+
   accentLabel: { type: String, default: "Today's P/L" },
   accentMeta: { type: String, default: '' },
+
+  monthWinRate: { type: Number, default: 0 },
+  monthTradeCount: { type: Number, default: 0 },
 })
 </script>
+
+
 
 <template>
   <section class="stats-grid">
@@ -32,20 +39,20 @@ defineProps({
       </span>
     </div>
 
-    <div class="stat-card">
-      <div class="stat-header">
-        <span>Win rate</span>
-        <span class="stat-icon">%</span>
-      </div>
+<div class="stat-card">
+  <div class="stat-header">
+    <span>Win rate</span>
+    <span class="stat-icon">%</span>
+  </div>
 
-      <strong class="stat-value">
-        {{ todayWinRate.toFixed(1) }}%
-      </strong>
+  <strong class="stat-value">
+    {{ monthWinRate.toFixed(1) }}%
+  </strong>
 
-      <span class="stat-meta">
-        {{ todayWins }} wins · {{ todayLosses }} losses
-      </span>
-    </div>
+  <span class="stat-meta">
+    {{ monthTradeCount }} trades this month
+  </span>
+</div>
 
     <div class="stat-card">
       <div class="stat-header">
