@@ -110,24 +110,29 @@ function goToTrades() {
         />
 
         <template v-else>
-          <DashboardView
-            v-if="activePage === 'Dashboard'"
-            :account="account"
-            :today-pnl="todayPnl"
-            :today-trades="todayTrades"
-            :today-win-rate="todayWinRate"
-            :today-wins="todayWins"
-            :today-losses="todayLosses"
-            :today-longs="todayLongs"
-            :today-shorts="todayShorts"
-            :month-pnl="monthPnl"
-            :month-trades="monthTrades"
-            :total-pnl="totalPnl"
-            :closed-trades="closedTrades"
-            :overall-win-rate="overallWinRate"
-            :recent-trades="recentTrades"
-            @view-all-trades="goToTrades"
-          />
+         <DashboardView
+  v-if="activePage === 'Dashboard'"
+  :account="account"
+  :today-pnl="todayPnl"
+  :today-trades="todayTrades"
+  :today-win-rate="todayWinRate"
+  :today-wins="todayWins"
+  :today-losses="todayLosses"
+  :today-longs="todayLongs"
+  :today-shorts="todayShorts"
+
+  :month-pnl="monthPnl"
+  :month-trades="monthTrades"
+
+  :month-win-rate="monthWinRate"
+  :month-trade-count="monthTradeCount"
+
+  :total-pnl="totalPnl"
+  :closed-trades="closedTrades"
+  :overall-win-rate="overallWinRate"
+  :recent-trades="recentTrades"
+  @view-all-trades="goToTrades"
+/>
 
           <JournalView
             v-else-if="activePage === 'Journal'"

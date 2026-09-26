@@ -148,3 +148,43 @@ export async function getJournal(params = {}) {
         },
     }
 }
+
+// Add these two functions to your existing api file (the one with
+// API_URL and getJournal). They're used by DailyPanel.vue to save
+// and delete a trade's screenshot note.
+
+export async function updateTradeNote(tradeId, note) {
+    const response = await fetch(`${API_URL}/trades/${tradeId}/note`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+        },
+        body: JSON.stringify({ note }),
+    })
+
+    if (!response.ok) {
+        throw new Error(
+            `Failed to save trade note: ${response.status}`
+        )
+    }
+
+    return response.json()
+}
+
+export async function deleteTradeNote(tradeId) {
+    const response = await fetch(`${API_URL}/trades/${tradeId}/note`, {
+        method: 'DELETE',
+        headers: {
+            Accept: 'application/json',
+        },
+    })
+
+    if (!response.ok) {
+        throw new Error(
+            `Failed to delete trade note: ${response.status}`
+        )
+    }
+
+    return response.json()
+}

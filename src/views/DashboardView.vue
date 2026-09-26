@@ -14,6 +14,8 @@ defineProps({
   todayShorts: { type: Number, required: true },
   monthPnl: { type: Number, required: true },
   monthTrades: { type: Array, required: true },
+   monthWinRate: { type: Number, required: true },
+  monthTradeCount: { type: Number, required: true },
   totalPnl: { type: Number, required: true },
   closedTrades: { type: Array, required: true },
   overallWinRate: { type: Number, required: true },
@@ -21,6 +23,8 @@ defineProps({
 })
 
 const emit = defineEmits(['viewAllTrades'])
+
+
 </script>
 
 <template>
@@ -41,8 +45,8 @@ const emit = defineEmits(['viewAllTrades'])
   :today-longs="todayLongs"
   :today-shorts="todayShorts"
   :account="account"
-  :month-win-rate="stats.currentMonth?.winRate ?? 0"
-  :month-trade-count="stats.currentMonth?.total ?? 0"
+  :month-win-rate="monthWinRate"
+  :month-trade-count="monthTradeCount"
 />
 
     <section class="stats-grid" style="margin-top: 12px">
