@@ -17,8 +17,7 @@ import {
   netPnl,
   pnlClass,
 } from '../../utils/formatters.js'
-import {deleteTradeNote , updateTradeNote } from "../../api/journalApi.js";
-
+import { deleteTradeNote, isBreakevenTrade, updateTradeNote } from '../../api/journalApi.js'
 
 defineProps({
   selectedDay: { type: Number, default: null },
@@ -152,6 +151,15 @@ async function saveNote(trade, text) {
     console.error('Failed to save trade note', error)
   }
 }
+
+// --- Breakeven styling -------------------------------------------------
+// Small net P/L trades are visually greyed out instead of colored
+// green/red, matching how they're excluded from win-rate in the stats.
+
+function rowPnlClass(trade) {
+  if (isBreakevenTrade(trade)) return 'breakeven'
+  return pnlClass(netPnl(trade))
+}
 </script>
 
 <template>
@@ -250,7 +258,7 @@ async function saveNote(trade, text) {
                 {{ trade.screenshot_note ? 'Edit note' : 'Notes' }}
               </button>
 
-              <strong :class="pnlClass(netPnl(trade))">
+              <strong :class="rowPnlClass(trade)">
                 {{ formatMoney(netPnl(trade)) }}
               </strong>
             </div>
@@ -291,7 +299,7 @@ async function saveNote(trade, text) {
                   {{ activeTrade.direction }}
                 </span>
 
-                <strong :class="pnlClass(netPnl(activeTrade))">
+                <strong :class="rowPnlClass(activeTrade)">
                   {{ formatMoney(netPnl(activeTrade)) }}
                 </strong>
               </div>
@@ -474,6 +482,11 @@ async function saveNote(trade, text) {
   color: var(--text-tertiary);
   border-color: var(--border);
   background: transparent;
+}
+
+.mini-trade-actions strong.breakeven,
+.screenshot-modal-title strong.breakeven {
+  color: var(--text-tertiary) !important;
 }
 
 .screenshot-count {

@@ -175,6 +175,21 @@
     var(--surface-raised);
 }
 
+.day-no-trade {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #454a54;
+  font-family: var(--font-mono);
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+ 
+
 .calendar-day.profitable::after {
   content: '';
   position: absolute;
@@ -192,6 +207,13 @@
     linear-gradient(145deg, var(--loss-soft), transparent 75%),
     var(--surface-raised);
 }
+
+.calendar-day.breakeven {
+  background:
+    linear-gradient(145deg, rgba(122, 128, 138, 0.16), transparent 75%),
+    var(--surface-raised);
+}
+ 
 
 .day-number {
   color: inherit;
@@ -212,6 +234,10 @@
   margin-top: 3px;
   color: var(--text-tertiary);
   font-size: 8px;
+}
+
+.day-pnl.breakeven-text {
+  color: #9096a2;
 }
 
 .calendar-footer {
@@ -245,6 +271,26 @@
 .negative-dot {
   background: var(--loss);
 }
+
+.breakeven-dot {
+  background: #7d828c;
+}
+ 
+
+.day-no-trade {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #454a54;
+  font-family: var(--font-mono);
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+ 
 
 .neutral-dot {
   background: #454a54;

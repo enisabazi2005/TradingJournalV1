@@ -1,5 +1,10 @@
 const API_URL = 'http://127.0.0.1:8000/api'
 
+// A trade whose net P/L falls within this band (either side of zero)
+// is treated as breakeven — it's excluded from win/loss and from the
+// win-rate calculation entirely.
+const BREAKEVEN_THRESHOLD = 10
+
 
 function getNetProfit(trade) {
     return (
@@ -10,23 +15,60 @@ function getNetProfit(trade) {
 }
 
 
+/**
+ * Whether a raw dollar amount (a trade's net P/L, or a day's total
+ * P/L) falls inside the breakeven band around zero.
+ */
+export function isBreakevenAmount(amount, threshold = BREAKEVEN_THRESHOLD) {
+    return Math.abs(Number(amount) || 0) <= threshold
+}
+
+
+/**
+ * Classifies a trade's outcome as 'win', 'loss', or 'breakeven'.
+ * Exported so the frontend can reuse the exact same rule for styling.
+ */
+export function classifyTrade(trade, threshold = BREAKEVEN_THRESHOLD) {
+    const net = getNetProfit(trade)
+
+    if (isBreakevenAmount(net, threshold)) {
+        return 'breakeven'
+    }
+
+    return net > 0 ? 'win' : 'loss'
+}
+
+
+export function isBreakevenTrade(trade, threshold = BREAKEVEN_THRESHOLD) {
+    return classifyTrade(trade, threshold) === 'breakeven'
+}
+
+
 function calculateTradeStats(trades = []) {
     const total = trades.length
 
-    const wins = trades.filter(
-        trade => getNetProfit(trade) > 0
-    ).length
+    let wins = 0
+    let losses = 0
+    let breakeven = 0
 
-    const losses = trades.filter(
-        trade => getNetProfit(trade) < 0
-    ).length
+    for (const trade of trades) {
+        const outcome = classifyTrade(trade)
 
-    const breakeven = trades.filter(
-        trade => getNetProfit(trade) === 0
-    ).length
+        if (outcome === 'win') {
+            wins++
+        } else if (outcome === 'loss') {
+            losses++
+        } else {
+            breakeven++
+        }
+    }
 
-    const winRate = total > 0
-        ? (wins / total) * 100
+    // Win rate is only meaningful over trades that actually won or
+    // lost — breakeven trades are excluded from both sides of it.
+    const decisive = wins + losses
+
+    const winRate = decisive > 0
+        ? (wins / decisive) * 100
         : 0
 
     const netProfit = trades.reduce(
@@ -149,9 +191,6 @@ export async function getJournal(params = {}) {
     }
 }
 
-// Add these two functions to your existing api file (the one with
-// API_URL and getJournal). They're used by DailyPanel.vue to save
-// and delete a trade's screenshot note.
 
 export async function updateTradeNote(tradeId, note) {
     const response = await fetch(`${API_URL}/trades/${tradeId}/note`, {
@@ -171,6 +210,7 @@ export async function updateTradeNote(tradeId, note) {
 
     return response.json()
 }
+
 
 export async function deleteTradeNote(tradeId) {
     const response = await fetch(`${API_URL}/trades/${tradeId}/note`, {

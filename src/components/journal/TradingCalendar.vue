@@ -1,6 +1,7 @@
 <script setup>
 import { ChevronLeft, ChevronRight } from 'lucide-vue-next'
 import { formatMoney, pnlClass } from '../../utils/formatters.js'
+import { isBreakevenAmount } from '../../api/journalApi.js'
 
 defineProps({
   formattedMonth: { type: String, required: true },
@@ -9,6 +10,11 @@ defineProps({
 })
 
 const emit = defineEmits(['changeMonth', 'selectDay'])
+
+function dayPnlClass(pnl) {
+  if (isBreakevenAmount(pnl)) return 'breakeven-text'
+  return pnlClass(pnl)
+}
 </script>
 
 <template>
@@ -49,8 +55,9 @@ const emit = defineEmits(['changeMonth', 'selectDay'])
           {
             muted: day.month,
             selected: selectedDay === day.day && !day.month,
-            profitable: day.pnl > 0,
-            losing: day.pnl < 0,
+            profitable: day.pnl > 0 && !isBreakevenAmount(day.pnl),
+            losing: day.pnl < 0 && !isBreakevenAmount(day.pnl),
+            breakeven: day.pnl !== undefined && isBreakevenAmount(day.pnl),
           },
         ]"
         @click="emit('selectDay', day)"
@@ -58,7 +65,7 @@ const emit = defineEmits(['changeMonth', 'selectDay'])
         <span class="day-number">{{ day.day }}</span>
 
         <template v-if="day.pnl !== undefined">
-          <span :class="['day-pnl', pnlClass(day.pnl)]">
+          <span :class="['day-pnl', dayPnlClass(day.pnl)]">
             {{ formatMoney(day.pnl) }}
           </span>
 
@@ -66,6 +73,8 @@ const emit = defineEmits(['changeMonth', 'selectDay'])
             {{ day.trades }} trades
           </span>
         </template>
+
+        <span v-else-if="!day.month" class="day-no-trade">No trade</span>
       </button>
     </div>
 
@@ -79,6 +88,11 @@ const emit = defineEmits(['changeMonth', 'selectDay'])
         <span class="legend-item">
           <span class="legend-dot negative-dot"></span>
           Losing
+        </span>
+
+        <span class="legend-item">
+          <span class="legend-dot breakeven-dot"></span>
+          Breakeven
         </span>
 
         <span class="legend-item">
